@@ -53,7 +53,7 @@ const DashboardPage = () => {
           {urls.map((url) => (
             <li key={url._id}>
               <p><strong>Original URL:</strong> <a href={url.originalUrl} target="_blank" rel="noopener noreferrer">{url.originalUrl}</a></p>
-              <p><strong>Short URL:</strong> <a href={`${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/url/${url.shortUrl}`} target="_blank" rel="noopener noreferrer">{`${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/url/${url.shortUrl}`}</a></p>
+              <p><strong>Short URL:</strong> <a href={`${import.meta.env.VITE_API_BASE_URL}/url/${url.shortUrl}`} target="_blank" rel="noopener noreferrer">{`${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/url/${url.shortUrl}`}</a></p>
               <p><strong>Clicks:</strong> {url.clicks}</p>
               {url.password && <p><strong>Password Protected:</strong> Yes</p>}
               {url.expiresAt && <p><strong>Expires At:</strong> {new Date(url.expiresAt).toLocaleString()}</p>}
