@@ -40,7 +40,7 @@ exports.shortenUrl = async (req, res) => {
 exports.redirectUrl = async (req, res) => {
   try {
     const { shortUrl } = req.params;
-    const { password: providedPassword } = req.query; // Password from query parameter
+    const { password: providedPassword } = req.query;
 
     const url = await Url.findOne({ shortUrl });
 
@@ -48,15 +48,12 @@ exports.redirectUrl = async (req, res) => {
       return res.status(404).send('URL not found');
     }
 
-    // Check for expiration
     if (url.expiresAt && new Date() > url.expiresAt) {
-      return res.status(410).send('URL has expired'); // 410 Gone
+      return res.status(410).send('URL has expired');
     }
 
-    // Check for password protection
     if (url.password) {
       if (!providedPassword) {
-        // If password is required but not provided, redirect to a password input page
         return res.redirect(`http://localhost:5173/password-required?shortUrl=${shortUrl}`);
       }
       const isPasswordValid = await bcrypt.compare(providedPassword, url.password);
@@ -65,7 +62,6 @@ exports.redirectUrl = async (req, res) => {
       }
     }
 
-    // Record analytics
     const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     const userAgent = req.headers['user-agent'];
 
@@ -73,7 +69,6 @@ exports.redirectUrl = async (req, res) => {
     url.analytics.push({
       ipAddress,
       userAgent,
-      // country: '' // Placeholder for future country detection
     });
     await url.save();
 
